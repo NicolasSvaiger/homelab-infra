@@ -1,217 +1,228 @@
-# 🏠 HomeLab AWS
+# 🚀 LauLab - HomeLab Infrastructure
 
-> Infraestrutura pessoal desenvolvida para estudos, desenvolvimento, automação e boas práticas de DevOps utilizando AWS, Docker e serviços Open Source.
+> Infraestrutura pessoal desenvolvida para estudos, experimentação e hospedagem de aplicações .NET utilizando Docker, AWS e ferramentas modernas de observabilidade.
 
 ---
 
 # 📖 Sobre o Projeto
 
-O **HomeLab AWS** é um ambiente hospedado na Amazon Web Services criado para simular uma infraestrutura próxima à utilizada em ambientes corporativos.
+O **LauLab** é um HomeLab desenvolvido com foco em boas práticas de infraestrutura, monitoramento e desenvolvimento de aplicações.
 
-O projeto tem como objetivos:
+O projeto possui uma arquitetura modular baseada em Docker, utilizando Proxy Reverso, HTTPS automático, monitoramento, centralização de logs e documentação completa.
 
-* Aprender infraestrutura moderna.
-* Hospedar aplicações .NET.
-* Automatizar deploys.
-* Centralizar gerenciamento dos containers.
-* Monitorar serviços.
-* Documentar toda a infraestrutura.
-* Aplicar boas práticas de segurança.
-
-Todo o ambiente é versionado no GitHub e documentado para facilitar futuras expansões.
+O objetivo é simular um ambiente próximo ao encontrado em empresas, permitindo estudar infraestrutura, DevOps e desenvolvimento .NET em um único ambiente.
 
 ---
 
 # 🎯 Objetivos
 
-* Centralizar toda a infraestrutura em Docker.
-* Utilizar apenas serviços Open Source.
-* Automatizar processos.
-* Reduzir exposição de portas públicas.
-* Utilizar HTTPS em todos os serviços.
-* Versionar toda a infraestrutura.
-* Facilitar recuperação da infraestrutura em caso de desastre.
+* Aprender Infraestrutura como Código
+* Centralizar serviços em Docker
+* Utilizar Proxy Reverso
+* Automatizar HTTPS
+* Monitorar disponibilidade
+* Centralizar logs
+* Hospedar aplicações .NET
+* Criar um ambiente escalável
+
+---
+
+# 🏗️ Arquitetura
+
+```text
+                           Internet
+                               │
+                        Cloudflare DNS
+                               │
+                               ▼
+                  Nginx Proxy Manager
+                               │
+        ┌──────────┬──────────┬──────────┬──────────┐
+        │          │          │          │          │
+   Portainer   WireGuard   Uptime     Dozzle      Seq
+                           Kuma
+                               │
+                     Futuras APIs .NET
+```
 
 ---
 
 # ☁️ Infraestrutura
 
-```text
-AWS
-└── EC2 Ubuntu 24.04
-    ├── Docker Engine
-    ├── Docker Compose
-    ├── Portainer
-    ├── Nginx Proxy Manager
-    ├── WireGuard (wg-easy)
-    ├── Amazon SSM
-    └── Cloudflare DNS
-```
+* AWS EC2
+* Ubuntu Server 24.04 LTS
+* Docker
+* Docker Compose
+* Cloudflare
+* Let's Encrypt
+* GitHub
 
 ---
 
-# 🏗 Arquitetura
+# 📦 Serviços
 
-```text
-                               Internet
-                                   │
-                                   ▼
-                            Cloudflare DNS
-                                   │
-                                   ▼
-                            laulab.com.br
-                                   │
-                                   ▼
-                      Nginx Proxy Manager
-                                   │
-        ┌──────────────────────────┼──────────────────────────┐
-        │                          │                          │
-        ▼                          ▼                          ▼
-   Portainer                  WireGuard                 Futuras APIs
-        │
-        ▼
- Docker Engine
-        │
-        ▼
- Containers
-```
+## 🏗️ Infrastructure
+
+| Serviço             | Domínio                 | Status |
+| ------------------- | ----------------------- | ------ |
+| Nginx Proxy Manager | npm.laulab.com.br       | ✅      |
+| Portainer           | portainer.laulab.com.br | ✅      |
+| WireGuard           | vpn.laulab.com.br       | ✅      |
 
 ---
 
-# 📂 Estrutura do Projeto
+## 📊 Monitoring
+
+| Serviço     | Domínio            | Status |
+| ----------- | ------------------ | ------ |
+| Uptime Kuma | kuma.laulab.com.br | ✅      |
+| Dozzle      | logs.laulab.com.br | ✅      |
+| Seq         | seq.laulab.com.br  | ✅      |
+
+---
+
+# 📁 Estrutura
 
 ```text
-homelab-infra
+homelab-infra/
 │
-├── README.md
-│
-├── docker
-│   ├── infrastructure
-│   │   ├── nginx-proxy-manager
-│   │   ├── portainer
-│   │   └── wireguard
+├── docker/
+│   ├── infrastructure/
+│   │   ├── nginx-proxy-manager/
+│   │   ├── portainer/
+│   │   └── wireguard/
 │   │
-│   ├── applications
-│   ├── databases
-│   └── observability
+│   ├── monitoring/
+│   │   ├── uptime-kuma/
+│   │   ├── dozzle/
+│   │   └── seq/
+│   │
+│   ├── applications/
+│   ├── databases/
+│   └── observability/
 │
-├── docs
-│
-└── scripts
+├── docs/
+├── scripts/
+└── README.md
 ```
 
 ---
 
-# 🧩 Serviços
+# 🛠️ Tecnologias
 
-| Serviço             | Função               | Status |
-| ------------------- | -------------------- | ------ |
-| Nginx Proxy Manager | Reverse Proxy        | ✅      |
-| Portainer           | Gerenciamento Docker | ✅      |
-| WireGuard           | VPN                  | ✅      |
-| Cloudflare          | DNS                  | ✅      |
-| Amazon SSM          | Administração        | ✅      |
+## Infraestrutura
 
----
+* AWS EC2
+* Ubuntu
+* Docker
+* Docker Compose
 
-# 🌐 Domínios
+## Proxy
 
-| Domínio                 | Serviço      |
-| ----------------------- | ------------ |
-| laulab.com.br           | Landing Page |
-| portainer.laulab.com.br | Portainer    |
-| vpn.laulab.com.br       | WireGuard    |
-| api.laulab.com.br       | APIs         |
-| grafana.laulab.com.br   | Grafana      |
-| kuma.laulab.com.br      | Uptime Kuma  |
-| seq.laulab.com.br       | Seq          |
+* Nginx Proxy Manager
+* Cloudflare
+* Let's Encrypt
 
----
+## Monitoramento
 
-# 🔒 Segurança
+* Uptime Kuma
+* Dozzle
+* Seq
 
-A infraestrutura segue algumas práticas básicas de segurança:
+## Desenvolvimento
 
-* HTTPS em todos os serviços.
-* Cloudflare como provedor DNS.
-* Certificados Let's Encrypt.
-* Administração via Amazon SSM.
-* VPN WireGuard para acesso administrativo.
-* Docker com restart automático.
-* Rotação de logs.
-* Volumes persistentes.
-* Infraestrutura versionada no GitHub.
+* Git
+* GitHub
 
 ---
 
 # 📚 Documentação
 
-Cada serviço possui documentação própria.
+Cada serviço possui sua própria documentação.
 
-| Serviço             | Documentação                                        |
-| ------------------- | --------------------------------------------------- |
-| Nginx Proxy Manager | docker/infrastructure/nginx-proxy-manager/README.md |
-| Portainer           | docker/infrastructure/portainer/README.md           |
-| WireGuard           | docker/infrastructure/wireguard/README.md           |
+## Infrastructure
 
----
+* Nginx Proxy Manager
+* Portainer
+* WireGuard
 
-# 🚀 Roadmap
+## Monitoring
 
-## Infraestrutura
-
-* [x] AWS EC2
-* [x] Docker
-* [x] Docker Compose
-* [x] Portainer
-* [x] Nginx Proxy Manager
-* [x] WireGuard
-* [x] Amazon SSM
-* [x] Cloudflare
-
-## Observabilidade
-
-* [ ] Uptime Kuma
-* [ ] Dozzle
-* [ ] Seq
-* [ ] Grafana
-* [ ] Prometheus
-
-## Banco de Dados
-
-* [ ] PostgreSQL
-* [ ] Redis
-* [ ] pgAdmin
-
-## Desenvolvimento
-
-* [ ] APIs .NET
-* [ ] GitHub Actions
-* [ ] CI/CD
-* [ ] Deploy Automático
+* Uptime Kuma
+* Dozzle
+* Seq
 
 ---
 
-# 💾 Backup
+# 🗺️ Roadmap
 
-A estratégia atual de backup é composta por:
+## ✅ Sprint 1 - Infrastructure
 
-* Snapshots EBS da AWS.
-* Volumes Docker persistentes.
-* Versionamento da infraestrutura no GitHub.
+* Docker
+* Docker Compose
+* Nginx Proxy Manager
+* Portainer
+* WireGuard
+* Cloudflare
+* HTTPS
 
 ---
 
-# 📈 Próximos Passos
+## ✅ Sprint 2 - Observability
 
-As próximas etapas previstas para evolução do HomeLab são:
+* Uptime Kuma
+* Dozzle
+* Seq
 
-1. Finalizar configuração do domínio.
-2. Publicar Portainer via HTTPS.
-3. Publicar WireGuard via HTTPS.
-4. Implantar observabilidade.
-5. Configurar deploy automatizado.
-6. Hospedar aplicações .NET.
+---
+
+## 🟡 Sprint 3 - Applications
+
+* ASP.NET Core API
+* SQL Server
+* Redis
+* RabbitMQ
+
+---
+
+## ⚪ Sprint 4 - CI/CD
+
+* Jenkins
+* GitHub Actions
+* Deploy Automatizado
+
+---
+
+## ⚪ Sprint 5 - Production
+
+* Backup Automatizado
+* Dashboards
+* Alertas
+* Hardening
+* Observabilidade Avançada
+
+---
+
+# 🔒 Segurança
+
+* HTTPS em todos os serviços
+* Certificados Let's Encrypt
+* Proxy Reverso
+* Docker Network compartilhada
+* Persistência de dados
+* Containers isolados
+
+---
+
+# 📊 Status do Projeto
+
+| Área           | Status |
+| -------------- | ------ |
+| Infrastructure | ✅      |
+| Monitoring     | ✅      |
+| Applications   | 🟡     |
+| Databases      | ⏳      |
+| CI/CD          | ⏳      |
 
 ---
 
@@ -219,15 +230,11 @@ As próximas etapas previstas para evolução do HomeLab são:
 
 **Nicolas Svaiger**
 
-Desenvolvedor .NET com foco em backend, infraestrutura, Docker e automação.
+Desenvolvedor .NET apaixonado por infraestrutura, automação e arquitetura de software.
 
 ---
 
-# 📅 Histórico
+# 📌 Licença
 
-## 2026-06-27
+Projeto desenvolvido para fins de estudo e evolução profissional.
 
-* Criação da estrutura inicial do HomeLab.
-* Migração dos serviços para estrutura padronizada.
-* Documentação completa dos serviços.
-* Versionamento da infraestrutura no GitHub.
