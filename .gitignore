@@ -1,0 +1,20 @@
+
+# Secrets
+.env
+*.pem
+*.key
+*.crt
+
+# Volumes and data
+data/
+letsencrypt/
+backups/
+logs/
+
+# WireGuard sensitive files
+wg0.conf
+wg0.json
+
+# OS/editor
+.DS_Store
+.vscode/
